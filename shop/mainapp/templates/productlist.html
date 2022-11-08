@@ -1,0 +1,54 @@
+{% extends "mainpage.html" %}
+{% block content %}
+ <section class="py-5">
+            <div class="container px-4 px-lg-5 mt-5">
+                <div class="row gx-4 gx-lg-5 row-cols-2 row-cols-md-3 row-cols-xl-4 justify-content-center">
+                    {% for product in products %}
+                    <div class="col mb-5">
+                        <div class="card h-100">
+                            <!-- Product image-->
+                            <img class="card-img-top" src="{{ product.image.url }}" >
+                            <!-- Product details-->
+                            <div class="card-body p-4">
+                                <div class="text-center">
+                                    <!-- Product name-->
+                                    <h5 class="fw-bolder" >{{ product.name }}</h5>
+                                    <!-- Product price-->
+                                    {{ product.price }} UAH
+                                </div>
+                            </div>
+                            <!-- Product actions-->
+                            <div class="card-footer p-4 pt-0 border-top-0 bg-transparent">
+                                <div class="text-center"><a class="btn btn-outline-dark mt-auto" href="{{ product.get_absolute_url }}">Product detail</a></div>
+                            </div>
+                        </div>
+                    </div>
+                    {% endfor %}
+                </div>
+            </div>
+        </section>
+  <!-- Lower pagination -->
+ <div class="mx-auto" style="width: 200px;">
+        <div class="hstack gap-3">
+            <form class="d-flex">
+                  {% if page_obj.has_previous %}
+            <a href="?page={{ page_obj.previous_page_number }}" class="btn btn-outline-dark" type="submit">
+                <span class="badge bg-dark text-white ms-1 rounded-pill">&lt;</span></a>
+            {% endif %}
+                {% for p in paginator.page_range %}
+                {% if page_obj.number == p %}
+                <span class="badge bg-dark text-white ms-1 rounded-pill">{{ p }}</span>
+                {% elif p >= page_obj.number|add:-2 and p <= page_obj.number|add:2 %}
+                <a href="?page={{ p }}" class="btn btn-outline-dark" type="submit">
+                    <span class="badge bg-dark text-white ms-1 rounded-pill">{{ p }}</span>
+                </a>
+                {% endif %} {% endfor %}
+                {% if page_obj.has_next %}
+            <a href="?page={{ page_obj.next_page_number }}" class="btn btn-outline-dark" type="submit">
+                <span class="badge bg-dark text-white ms-1 rounded-pill">&gt;</span></a>
+            {% endif %}
+            </form>
+        </div>
+   </div>
+        <h1></h1>
+    {% endblock %}

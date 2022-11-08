@@ -1,0 +1,48 @@
+{% extends "mainpage.html" %}
+{% block content %}
+  <tbody>
+  <tr>
+      <th scope="row"></th>
+    <td>
+ <section class="py-5">
+            <div class="container px-4 px-lg-5 mt-5">
+                <div class="row gx-4 gx-lg-5 row-cols-2 row-cols-md-3 row-cols-xl-4 justify-content-left">
+                    <div class="col mb-5">
+                        <div class="card h-100">
+                            <!-- Product image-->
+                            <img class="card-img-top" src="{{ product.image.url }}" >
+                            <!-- Product details-->
+                            <div class="card-body p-4">
+                                <div class="text-center">
+                                    <!-- Product name-->
+                                    <h5 class="fw-bolder" >{{ product.name }}</h5>
+                                    <!-- Product price-->
+                                    {{ product.price }} UAH
+
+                                </div>
+                            </div>
+
+                            <!-- Product actions-->
+                            <div class="card-footer p-4 pt-0 border-top-0 bg-transparent">
+
+                                <form class="text-center" action="{% url 'cart_add' product.id %}" method="post">
+                                    {{ cart_product_form }}
+                                    {% csrf_token %}
+                                    <input class="btn btn-outline-dark mt-auto" type="submit" value="Add to cart">
+                                </form>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+    </td>
+    <td>
+        <section class="py-5">
+        {{ product.description }}
+        </section>
+    </td>
+</tr>
+</tbody>
+
+{% endblock %}
