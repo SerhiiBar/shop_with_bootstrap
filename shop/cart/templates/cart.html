@@ -29,11 +29,16 @@
                             </div>
                         </a>
                     </td>
-                    <td>{{ product.name }}</td>
+                    <td>
+                        <div class="container">
+                                 <div class="col col-lg-2">{{ product.name }}
+                                 </div>
+                        </div>
+                    </td>
                     <td>{{ item.quantity }}</td>
-                    <td><a href="{% url 'cart_remove' product.id %}">Remove</a></td>
                     <td class="num">${{ item.price }}</td>
                     <td class="num">${{ item.total_price }}</td>
+                    <td><a href="{% url 'cart_remove' product.id %}">Remove</a></td>
                 </tr>
             {% endwith %}
         {% endfor %}

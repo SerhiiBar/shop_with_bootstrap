@@ -1,3 +1,4 @@
+from django.core.validators import MaxValueValidator
 from django.db import models
 from mainapp.models import Product
 
@@ -11,6 +12,7 @@ class Order(models.Model):
     created = models.DateTimeField(auto_now_add=True)
     updated = models.DateTimeField(auto_now=True)
     paid = models.BooleanField(default=False)
+    phone = models.CharField(max_length=13)
 
     class Meta:
         ordering = ('-created',)

@@ -1,12 +1,11 @@
 {% extends "mainpage.html" %}
 {% block content %}
   <tbody>
-  <tr>
-      <th scope="row"></th>
-    <td>
- <section class="py-5">
+  <div class="row align-items-start">
+      <div class="col">
+ <section class="py-0">
             <div class="container px-4 px-lg-5 mt-5">
-                <div class="row gx-4 gx-lg-5 row-cols-2 row-cols-md-3 row-cols-xl-4 justify-content-left">
+                <div class="row gx-4 gx-lg-5 row-cols-2 row-cols-md-3  justify-content-left">
                     <div class="col mb-5">
                         <div class="card h-100">
                             <!-- Product image-->
@@ -36,13 +35,16 @@
                 </div>
             </div>
         </section>
-    </td>
-    <td>
+      </div>
+
+      <div class="col">
         <section class="py-5">
+            <h2>{{ product.name }} description</h2>
         {{ product.description }}
         </section>
-    </td>
-</tr>
+      </div>
+  </div>
+
 </tbody>
 
 {% endblock %}
