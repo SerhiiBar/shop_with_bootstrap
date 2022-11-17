@@ -7,8 +7,12 @@ class OrderItemInline(admin.TabularInline):
     raw_id_fields = ['product']
 
     def total_cost(self, obj):
-        return float(str(obj.price)) * obj.quantity
+        return OrderItem.get_cost(obj)
     readonly_fields = ("total_cost",)
+
+    def get_extra(self, request, obj=None, **kwargs):
+        extra = 0
+        return extra
 
 
 class OrderAdmin(admin.ModelAdmin):
@@ -18,6 +22,10 @@ class OrderAdmin(admin.ModelAdmin):
     list_filter = ['paid', 'created', 'updated']
     list_editable = ['paid',]
     inlines = [OrderItemInline]
+
+    def total_cost(self, obj):
+        return Order.get_total_cost(obj)
+    readonly_fields = ("total_cost",)
 
 
 admin.site.register(Order, OrderAdmin)
