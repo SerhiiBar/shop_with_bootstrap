@@ -16,15 +16,15 @@ class OrderItemInline(admin.TabularInline):
 
 
 class OrderAdmin(admin.ModelAdmin):
-    list_display = ['id', 'first_name', 'last_name', 'email',
-                    'address', 'city', 'paid', 'phone',
+    list_display = ['id', 'first_name', 'last_name', 'email', 'phone',
+                    'address', 'city', 'paid',
                     'created', 'updated']
     list_filter = ['paid', 'created', 'updated']
     list_editable = ['paid',]
     inlines = [OrderItemInline]
 
     def total_cost(self, obj):
-        return Order.get_total_cost(obj)
+        return str(Order.get_total_cost(obj)) + ' UAH'
     readonly_fields = ("total_cost",)
 
 

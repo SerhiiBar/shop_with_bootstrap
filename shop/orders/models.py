@@ -7,12 +7,12 @@ class Order(models.Model):
     first_name = models.CharField(max_length=50)
     last_name = models.CharField(max_length=50)
     email = models.EmailField()
+    phone = models.CharField(max_length=13)
     address = models.CharField(max_length=250)
     city = models.CharField(max_length=100)
     created = models.DateTimeField(auto_now_add=True)
     updated = models.DateTimeField(auto_now=True)
     paid = models.BooleanField(default=False)
-    phone = models.CharField(max_length=13)
 
     class Meta:
         ordering = ('-created',)
