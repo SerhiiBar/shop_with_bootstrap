@@ -1,10 +1,14 @@
+import threading
+
 from django.shortcuts import render
 from django.views.generic import FormView, DetailView
 from .models import *
 from .forms import OrderCreateForm
 from cart.cart import Cart
 from mainapp.models import Category
-import smtplib
+from .sendmessage import start_send_my_message
+# from .sendmessage import send_email
+import asyncio
 
 
 class OrderView(FormView):
@@ -26,30 +30,25 @@ class CreatedView(DetailView):
     def get(self, request, *args, **kwargs):
         cart = Cart(request)
         order = Order.objects.all()[0]
-        for item in cart:
-            OrderItem.objects.create(order=order,
-                                     product=item['product'],
-                                     price=item['price'],
-                                     quantity=item['quantity'])
-        massage = OrderItem.objects.all()[0]
-        address = str(order.email)
-        send_email(order, massage, address)
-        cart.clear()
+        msg = []
         categories = Category.objects.all()
-        return render(request, 'order_created.html', {'order': order, 'categories': categories})
+        for item in cart:
+            new_order = OrderItem.objects.create(order=order,
+                                                 product=item['product'],
+                                                 price=item['price'],
+                                                 quantity=item['quantity'])
+            msg.append((item['product'], item['price'], item['quantity']))
+            new_order.update_stock()
 
+        msg = str(msg)
+        address = str(order.email)
+        try:
+            print('Sending email...')
+            threading.Thread(target=start_send_my_message, args=(order, msg, address)).start()
+            # send_email(order, address, msg)
+            print('Email sent!')
+            cart.clear()
+            return render(request, 'order_created.html', {'order': order, 'categories': categories})
 
-def send_email(order, massage, address):
-    sender = "testformassege@gmail.com"
-    password = 'rlezrhekthsrclex'
-    massage_order = f"Your {order} success"
-
-    server = smtplib.SMTP('smtp.gmail.com', 587)
-    server.starttls()
-
-    try:
-        server.login(sender, password)
-        server.sendmail(sender, address, f"Subject: Your order in shop\n{massage_order}\n{massage}")
-    except Exception as _ex:
-        print('error')
-        return f"{_ex}\nCheck your login or password!"
+        except Exception as e:
+            print('Error:', e)

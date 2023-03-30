@@ -1,4 +1,5 @@
 {% extends "mainpage.html" %}
+{% load static %}
 {% block content %}
  <section class="py-5">
             <div class="container px-4 px-lg-5 mt-5">
@@ -30,14 +31,16 @@
   <!-- Lower pagination -->
  <div class="mx-auto" style="width: 200px;">
         <div class="hstack gap-3">
-            <form class="d-flex">
+            <form class="d-flex justify-content-center">
                   {% if page_obj.has_previous %}
             <a href="?page={{ page_obj.previous_page_number }}" class="btn btn-outline-dark" type="submit">
                 <span class="badge bg-dark text-white ms-1 rounded-pill">&lt;</span></a>
             {% endif %}
                 {% for p in paginator.page_range %}
                 {% if page_obj.number == p %}
+                <a class="btn bg-dark">
                 <span class="badge bg-dark text-white ms-1 rounded-pill">{{ p }}</span>
+                </a>
                 {% elif p >= page_obj.number|add:-2 and p <= page_obj.number|add:2 %}
                 <a href="?page={{ p }}" class="btn btn-outline-dark" type="submit">
                     <span class="badge bg-dark text-white ms-1 rounded-pill">{{ p }}</span>

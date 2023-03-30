@@ -37,3 +37,8 @@ class OrderItem(models.Model):
 
     def get_cost(self):
         return float(str(self.price)) * self.quantity
+
+    def update_stock(self):
+        updated_product = self.product
+        updated_product.stock -= self.quantity
+        updated_product.save()

@@ -4,6 +4,7 @@
     Your shopping cart
 {% endblock %}
 {% block content %}
+<div class="container px-4 px-lg-5">
     <h1>Your shopping cart</h1>
     <table class="cart">
         <thead>
@@ -31,28 +32,28 @@
                     </td>
                     <td>
                         <div class="container">
-                                 <div class="col col-lg-2">{{ product.name }}
-                                 </div>
+                                 <div class="col col-lg-2">{{ product.name }}</div>
                         </div>
                     </td>
                     <td>{{ item.quantity }}</td>
                     <td class="num">${{ item.price }}</td>
                     <td class="num">${{ item.total_price }}</td>
-                    <td><a href="{% url 'cart_remove' product.id %}">Remove</a></td>
+                    <td><a class="btn btn-outline-dark mt-auto" href="{% url 'cart_remove' product.id %}">Remove</a></td>
                 </tr>
             {% endwith %}
         {% endfor %}
         <tr class="total">
             <td>Total</td>
             <td colspan="4"></td>
-            <td class="num">${{ cart.get_total_price }}</td>
+            <td class="num"><h5>${{ cart.get_total_price }}</h5></td>
         </tr>
         </tbody>
     </table>
     <p class="text-right">
-        <a href="{% url 'mainpage' %}" class="button light">Continue shopping</a>
-        <a href="{% url 'order_creation' %}" class="button">
-    Checkout
-</a>
+        <a href="{% url 'mainpage' %}" class="btn btn-outline-dark mt-auto">Continue shopping</a>
+        {% if cart.get_total_price != 0 %}
+        <a href="{% url 'order_creation' %}" class="btn btn-outline-dark mt-auto">Checkout</a>
+        {% endif %}
     </p>
+    </div>
 {% endblock %}
